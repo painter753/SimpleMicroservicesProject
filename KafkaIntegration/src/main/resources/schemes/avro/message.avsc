@@ -1,0 +1,56 @@
+{
+    "namespace":"com.lazyboyprod.avro.generated",
+    "type": "record",
+    "name": "Message",
+    "fields": [
+        {
+            "name": "id",
+            "type": "string"
+        },
+        {
+            "name": "context",
+            "type": {
+                "type": "record",
+                "name": "Context",
+                "fields": [
+                    {
+                        "name": "frontend",
+                        "type": "string"
+                    },
+                    {
+                        "name": "bisuness",
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "data",
+            "type": ["null", "bytes"]
+        },
+        {
+            "name": "generation",
+            "type": "int"
+        },
+        {
+            "name": "timestamp",
+            "type": "long"
+        },
+        {
+            "name": "model",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "version",
+            "type": ["null", "string"]
+        },
+        {
+            "name": "entryPoint",
+            "type": ["null", "string"]
+        }
+    ]
+}

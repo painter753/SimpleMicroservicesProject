@@ -1,0 +1,5 @@
+application:
+  kafka:
+    application-id: gateway-producer
+    bootstrap-servers: localhost:9092
+

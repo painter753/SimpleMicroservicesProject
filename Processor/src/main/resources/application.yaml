@@ -1,0 +1,5 @@
+application:
+  kafka:
+    application-id: processor-consumer
+    bootstrap-servers: localhost:9092
+
