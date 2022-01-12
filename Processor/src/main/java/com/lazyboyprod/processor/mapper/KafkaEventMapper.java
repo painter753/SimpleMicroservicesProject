@@ -1,31 +1,21 @@
 package com.lazyboyprod.processor.mapper;
 
-import com.lazyboyprod.kafka.mapper.Mapper;
-import com.lazyboyprod.kafka.model.KafkaMessage;
+import com.lazyboyprod.kafka.model.KafkaEvent;
 import com.lazyboyprod.processor.model.Message;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
-@Component
-public class KafkaMessageMapper implements Mapper<KafkaMessage, Message> {
 
-    @Override
-    public KafkaMessage unmap(Message source) {
-        return null;
-    }
+public class KafkaEventMapper {
 
-    @Override
-    public Message map(KafkaMessage source) {
+    public Message map(KafkaEvent source) {
         Message message = new Message();
 
         message.setId(source.getId());
         message.setGeneration(source.getGeneration());
         message.setTimestamp(source.getTimestamp());
         message.setModel(source.getModel());
-        message.setVersion(source.getVersion());
-
+        message.setVersion(source.getModelVersion());
 
         if (source.getData() != null) {
             String s = new String(source.getData(), StandardCharsets.UTF_8);
@@ -33,12 +23,11 @@ public class KafkaMessageMapper implements Mapper<KafkaMessage, Message> {
         }
 
         Message.Context context = new Message.Context();
-        context.setFrontend(source.getContext().getFrontend());
-        context.setBusiness(source.getContext().getBusiness());
-        context.setCountry(source.getContext().getCountry());
+        context.setFrontend(source.getFrontend());
+        context.setBusiness(source.getBusiness());
+        context.setCountry(source.getCountry());
 
         message.setContext(context);
         return message;
     }
-
 }

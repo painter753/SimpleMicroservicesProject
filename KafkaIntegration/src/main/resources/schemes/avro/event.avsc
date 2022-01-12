@@ -1,0 +1,90 @@
+{
+  "namespace": "com.lazyboyprod.avro.generated",
+  "type": "record",
+  "name": "Event",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "meta",
+      "type": {
+        "type": "record",
+        "name": "Meta",
+        "fields": [
+          {
+            "name": "contentType",
+            "type": ["null", "int"]
+          },
+          {
+            "name": "version",
+            "type": {
+              "type": "record",
+              "name": "Version",
+              "fields": [
+                {
+                  "name": "api",
+                  "type": ["null", "long"]
+                },
+                {
+                  "name": "object",
+                  "type": ["null", "long"]
+                }
+              ]
+            }
+          }
+        ]
+      }
+
+    },
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "frontend",
+      "type": "string"
+    },
+    {
+      "name": "business",
+      "type": "string"
+    },
+    {
+      "name": "type",
+      "type": "string"
+    },
+    {
+      "name": "country",
+      "type": "string"
+    },
+    {
+      "name": "language",
+      "type": "string"
+    },
+    {
+      "name": "data",
+      "type": ["null", "bytes"]
+    },
+    {
+      "name": "generation",
+      "type": "int"
+    },
+    {
+      "name": "createTimestamp",
+      "type": "long"
+    },
+    {
+      "name": "model",
+      "type": ["null", "string"]
+    },
+    {
+      "name": "modelVersion",
+      "type": ["null", "string"]
+    },
+    {
+      "name": "entryPoint",
+      "type": ["null", "string"]
+    }
+  ]
+}

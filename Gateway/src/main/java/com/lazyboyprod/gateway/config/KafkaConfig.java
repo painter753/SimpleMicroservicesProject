@@ -1,6 +1,7 @@
 package com.lazyboyprod.gateway.config;
 
 import com.lazyboyprod.gateway.properties.KafkaProperties;
+import com.lazyboyprod.kafka.model.KafkaEvent;
 import com.lazyboyprod.kafka.model.KafkaMessage;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -16,9 +17,11 @@ import java.util.Properties;
 public class KafkaConfig {
 
     private final Serde<KafkaMessage> kafkaMessageSerde;
+    private final Serde<KafkaEvent> kafkaEventSerde;
 
-    public KafkaConfig(Serde<KafkaMessage> kafkaMessageSerde) {
+    public KafkaConfig(Serde<KafkaMessage> kafkaMessageSerde, Serde<KafkaEvent> kafkaEventSerde) {
         this.kafkaMessageSerde = kafkaMessageSerde;
+        this.kafkaEventSerde = kafkaEventSerde;
     }
 
     @Bean("producer-kafka-properties")
@@ -39,8 +42,13 @@ public class KafkaConfig {
         return properties;
     }
 
-    @Bean("kafka-producer")
-    public KafkaProducer<String, KafkaMessage> getProducer(@Qualifier("producer-kafka-properties") Properties properties) {
+    //@Bean("kafka-message-producer")
+    public KafkaProducer<String, KafkaMessage> getMessageProducer(@Qualifier("producer-kafka-properties") Properties properties) {
         return new KafkaProducer<String, KafkaMessage>(properties, Serdes.String().serializer(), kafkaMessageSerde.serializer());
+    }
+
+    @Bean("kafka-event-producer")
+    public KafkaProducer<String, KafkaEvent> getEventProducer(@Qualifier("producer-kafka-properties") Properties properties) {
+        return new KafkaProducer<String, KafkaEvent>(properties, Serdes.String().serializer(), kafkaEventSerde.serializer());
     }
 }

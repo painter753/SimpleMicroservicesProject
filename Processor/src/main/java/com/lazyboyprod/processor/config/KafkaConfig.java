@@ -1,6 +1,6 @@
 package com.lazyboyprod.processor.config;
 
-import com.lazyboyprod.kafka.model.KafkaMessage;
+import com.lazyboyprod.kafka.model.KafkaEvent;
 import com.lazyboyprod.processor.properties.KafkaProperties;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -15,10 +15,10 @@ import java.util.Properties;
 @Configuration
 public class KafkaConfig {
 
-    private final Serde<KafkaMessage> kafkaMessageSerde;
+    private final Serde<KafkaEvent> kafkaEventSerde;
 
-    public KafkaConfig(Serde<KafkaMessage> kafkaMessageSerde) {
-        this.kafkaMessageSerde = kafkaMessageSerde;
+    public KafkaConfig(Serde<KafkaEvent> kafkaEventSerde) {
+        this.kafkaEventSerde = kafkaEventSerde;
     }
 
     @Bean("consumer-kafka-properties")
@@ -40,7 +40,7 @@ public class KafkaConfig {
     }
 
     @Bean("kafka-consumer")
-    public KafkaConsumer<String, KafkaMessage> getConsumer(@Qualifier("consumer-kafka-properties") Properties properties) {
-        return new KafkaConsumer<>(properties, Serdes.String().deserializer(), kafkaMessageSerde.deserializer());
+    public KafkaConsumer<String, KafkaEvent> getConsumer(@Qualifier("consumer-kafka-properties") Properties properties) {
+        return new KafkaConsumer<>(properties, Serdes.String().deserializer(), kafkaEventSerde.deserializer());
     }
 }

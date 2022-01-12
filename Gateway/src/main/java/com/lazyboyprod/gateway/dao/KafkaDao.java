@@ -1,7 +1,8 @@
 package com.lazyboyprod.gateway.dao;
 
 import com.lazyboyprod.gateway.mapper.KafkaMessageMapper;
-import com.lazyboyprod.gateway.model.Message;
+import com.lazyboyprod.gateway.model.v1.Message;
+import com.lazyboyprod.kafka.model.KafkaEvent;
 import com.lazyboyprod.kafka.model.KafkaMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -13,26 +14,22 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class KafkaDao {
 
-    private final KafkaProducer<String, KafkaMessage> kafkaProducer;
-    private final KafkaMessageMapper kafkaMessageMapper;
+    private final KafkaProducer<String, KafkaEvent> kafkaProducer;
 
     private static final String topic = "public_messages";
 
-
-    public KafkaDao(@Qualifier("kafka-producer") KafkaProducer<String, KafkaMessage> kafkaProducer, KafkaMessageMapper kafkaMessageMapper) {
+    public KafkaDao(@Qualifier("kafka-event-producer") KafkaProducer<String, KafkaEvent> kafkaProducer) {
         this.kafkaProducer = kafkaProducer;
-        this.kafkaMessageMapper = kafkaMessageMapper;
     }
 
-    public void save(Message message) {
-        KafkaMessage dto = kafkaMessageMapper.map(message);
-        ProducerRecord<String, KafkaMessage> record = new ProducerRecord<>(topic, message.getId(), dto);
+    public void save(KafkaEvent event) {
+        ProducerRecord<String, KafkaEvent> record = new ProducerRecord<>(topic, event.getId(), event);
         kafkaProducer.send(record, (metadata, exception) -> {
             if (exception != null) {
                 log.error("Error during produce record={}", record, exception);
             } else {
                 if (metadata != null) {
-                    log.info("Success produced record={}, for message={}, metadata={}", record, dto, metadata);
+                    log.info("Success produced record={}, for event={}, metadata={}", record, event, metadata);
                 } else {
                     log.warn("Warning no metadata for producing record={}", record);
                 }

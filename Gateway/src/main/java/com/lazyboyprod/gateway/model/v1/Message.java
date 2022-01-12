@@ -1,4 +1,4 @@
-package com.lazyboyprod.gateway.model;
+package com.lazyboyprod.gateway.model.v1;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +15,6 @@ public class Message {
     private long timestamp;
     private String model;
     private String version;
-
-    private String entryPoint;
 
     @Getter
     @Setter
